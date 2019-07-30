@@ -60,10 +60,11 @@ const useStore = (
 export default useStore;
 
 export const usePersist = (
+  key: string,
   React: any,
   initialState: any,
   actions: any,
-  key: string
+  initializer?: (store: Store) => void
 ) => {
   if (typeof key !== "string") {
     console.error("must have key as string value");
@@ -81,6 +82,7 @@ export const usePersist = (
   };
   store.setState = setPersistState.bind(store);
   store.associatedActions = associateActions(store, actions);
+  if (initializer) initializer(store);
   return useCustom.bind(store, React);
 };
 
